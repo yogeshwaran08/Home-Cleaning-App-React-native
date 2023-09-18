@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "968127669606",
+    "project_id": "homecleaning-16861",
+    "storage_bucket": "homecleaning-16861.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:968127669606:android:298398a081be6f6ce614a7",
+        "android_client_info": {
+          "package_name": "com.homecleaning"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAptuKmld1vKF16foiPVMH8CpPQ9Sp8reE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
