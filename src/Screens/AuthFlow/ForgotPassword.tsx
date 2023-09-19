@@ -1,4 +1,11 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
 import React, {useState} from 'react';
 import {COLOR} from '../../config/constants';
 import InputBox from '../../Components/InputBox';
@@ -25,35 +32,37 @@ const ForgotPasswordScreen: React.FC<ForgotPasswordProps> = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.parent}>
-        <View style={styles.headerContainer}>
-          <Text style={styles.headerText}>Forgot Password</Text>
-          <Text style={styles.subHeader}>Reset your password</Text>
-        </View>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.container}>
+        <View style={styles.parent}>
+          <View style={styles.headerContainer}>
+            <Text style={styles.headerText}>Forgot Password</Text>
+            <Text style={styles.subHeader}>Reset your password</Text>
+          </View>
 
-        <View>
-          <InputBox
-            text={username}
-            onChange={uname => setUsername(uname)}
-            placeholder="Email"
-            leftIcon={<HomeIcon height={32} width={32} />}
-            style={{marginVertical: 10}}
+          <View>
+            <InputBox
+              text={username}
+              onChange={uname => setUsername(uname)}
+              placeholder="Email"
+              leftIcon={<HomeIcon height={32} width={32} />}
+              style={{marginVertical: 10}}
+            />
+          </View>
+          <CustomButtom
+            text="Reset Password"
+            style={{marginTop: 10}}
+            onPress={() => handleButton()}
           />
-        </View>
-        <CustomButtom
-          text="Reset Password"
-          style={{marginTop: 10}}
-          onPress={() => handleButton()}
-        />
-        <View style={styles.newUserContainer}>
-          <Text style={styles.newUserText}>Looking of login?</Text>
-          <Pressable onPress={() => navigation.navigate('LoginScreen')}>
-            <Text style={styles.newUserPress}>Login here</Text>
-          </Pressable>
+          <View style={styles.newUserContainer}>
+            <Text style={styles.newUserText}>Looking of login?</Text>
+            <Pressable onPress={() => navigation.navigate('LoginScreen')}>
+              <Text style={styles.newUserPress}>Login here</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 

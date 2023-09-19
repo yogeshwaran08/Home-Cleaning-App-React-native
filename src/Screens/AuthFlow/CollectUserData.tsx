@@ -77,6 +77,7 @@ const CollectUserData: React.FC<CollectUserDataProps> = ({navigation}) => {
               style={styles.imgStyle}
             />
           </View> */}
+
           <View>
             <Text style={styles.header}>Please Fill up your details</Text>
           </View>
@@ -126,8 +127,7 @@ const styles = StyleSheet.create({
   },
   container: {
     position: 'relative',
-    justifyContent: 'center',
-    alignItems: 'center',
+    top: '30%',
   },
   animationContainer: {
     paddingBottom: 30,

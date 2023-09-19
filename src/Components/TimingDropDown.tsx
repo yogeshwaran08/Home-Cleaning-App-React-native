@@ -28,9 +28,6 @@ const DropdownComponent: React.FC<Props> = ({
     {label: 'Afternoon', value: 'afternoon'},
   ];
 
-  //@ts-ignore
-  data = [{name: placeholder, codename: null}, ...data];
-
   return (
     <View style={[styles.container, containerStyle]}>
       <Dropdown

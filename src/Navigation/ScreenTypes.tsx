@@ -14,6 +14,7 @@ export type RootStackParamList = {
   Home: undefined;
   ServiceEntry: ServiceEntry;
   Profile: undefined;
+  SucessScreen: undefined;
   //navigaters
   MainNavigator: undefined;
 };

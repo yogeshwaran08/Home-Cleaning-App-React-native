@@ -9,6 +9,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import ServiceEntry from './ServiceEntry';
 import BackButton from '../../Components/BackButton';
 import Profile from './Profile';
+import SucessScreen from './SucessScreen';
 
 const TabbeNavigtor = createStackNavigator<RootStackParamList>();
 
@@ -59,6 +60,13 @@ const MainNavigator = () => {
           headerLeftContainerStyle: {
             paddingLeft: 10,
           },
+        }}
+      />
+      <TabbeNavigtor.Screen
+        component={SucessScreen}
+        name="SucessScreen"
+        options={{
+          headerShown: false,
         }}
       />
     </TabbeNavigtor.Navigator>

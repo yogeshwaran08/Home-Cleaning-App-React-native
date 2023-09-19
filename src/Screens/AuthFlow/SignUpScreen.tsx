@@ -1,4 +1,11 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
 import React, {useState} from 'react';
 import {COLOR} from '../../config/constants';
 import InputBox from '../../Components/InputBox';
@@ -19,51 +26,53 @@ const SignUp: React.FC<SignUpProps> = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.parent}>
-        <View style={styles.headerContainer}>
-          <Text style={styles.headerText}>SignUp</Text>
-          <Text style={styles.subHeader}>Create your account here</Text>
-        </View>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.container}>
+        <View style={styles.parent}>
+          <View style={styles.headerContainer}>
+            <Text style={styles.headerText}>SignUp</Text>
+            <Text style={styles.subHeader}>Create your account here</Text>
+          </View>
 
-        <View>
-          <InputBox
-            text={username}
-            onChange={uname => setUsername(uname)}
-            placeholder="Email"
-            leftIcon={<HomeIcon height={32} width={32} />}
-            style={{marginVertical: 5}}
+          <View>
+            <InputBox
+              text={username}
+              onChange={uname => setUsername(uname)}
+              placeholder="Email"
+              leftIcon={<HomeIcon height={32} width={32} />}
+              style={{marginVertical: 5}}
+            />
+            <InputBox
+              isPassword={true}
+              text={password}
+              onChange={pword => setPassword(pword)}
+              placeholder="Password"
+              leftIcon={<LockIcon height={32} width={32} />}
+              style={{marginVertical: 5}}
+            />
+            <InputBox
+              isPassword={true}
+              text={cnfPassword}
+              onChange={pword => setCnfPassword(pword)}
+              placeholder="Confim password"
+              leftIcon={<LockIcon height={32} width={32} />}
+              style={{marginVertical: 5}}
+            />
+          </View>
+          <CustomButtom
+            text="Sign up"
+            style={{marginTop: 10}}
+            onPress={handleSignUp}
           />
-          <InputBox
-            isPassword={true}
-            text={password}
-            onChange={pword => setPassword(pword)}
-            placeholder="Password"
-            leftIcon={<LockIcon height={32} width={32} />}
-            style={{marginVertical: 5}}
-          />
-          <InputBox
-            isPassword={true}
-            text={cnfPassword}
-            onChange={pword => setCnfPassword(pword)}
-            placeholder="Confim password"
-            leftIcon={<LockIcon height={32} width={32} />}
-            style={{marginVertical: 5}}
-          />
-        </View>
-        <CustomButtom
-          text="Sign up"
-          style={{marginTop: 10}}
-          onPress={handleSignUp}
-        />
-        <View style={styles.newUserContainer}>
-          <Text style={styles.newUserText}>Already registred?</Text>
-          <Pressable onPress={() => navigation.navigate('LoginScreen')}>
-            <Text style={styles.newUserPress}>Login here</Text>
-          </Pressable>
+          <View style={styles.newUserContainer}>
+            <Text style={styles.newUserText}>Already registred?</Text>
+            <Pressable onPress={() => navigation.navigate('LoginScreen')}>
+              <Text style={styles.newUserPress}>Login here</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 

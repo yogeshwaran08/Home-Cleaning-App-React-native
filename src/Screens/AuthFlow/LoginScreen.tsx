@@ -1,4 +1,11 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
 import React, {useState} from 'react';
 import {COLOR} from '../../config/constants';
 import InputBox from '../../Components/InputBox';
@@ -36,80 +43,82 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
     });
   };
   return (
-    <View style={styles.container}>
-      <View style={styles.parent}>
-        <View style={styles.headerContainer}>
-          <Text style={styles.headerText}>Login</Text>
-          <Text style={styles.subHeader}>Login to your Account</Text>
-        </View>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.container}>
+        <View style={styles.parent}>
+          <View style={styles.headerContainer}>
+            <Text style={styles.headerText}>Login</Text>
+            <Text style={styles.subHeader}>Login to your Account</Text>
+          </View>
 
-        <View>
-          <InputBox
-            text={username}
-            onChange={uname => setUsername(uname)}
-            placeholder="Email"
-            leftIcon={<HomeIcon height={32} width={32} />}
-            style={{marginVertical: 5}}
+          <View>
+            <InputBox
+              text={username}
+              onChange={uname => setUsername(uname)}
+              placeholder="Email"
+              leftIcon={<HomeIcon height={32} width={32} />}
+              style={{marginVertical: 5}}
+            />
+            <InputBox
+              isPassword={true}
+              text={password}
+              onChange={pword => setPassword(pword)}
+              placeholder="Password"
+              leftIcon={<LockIcon height={32} width={32} />}
+              style={{marginVertical: 5}}
+            />
+          </View>
+          <Pressable
+            onPress={() => {
+              navigation.navigate('ForgotPassword');
+            }}>
+            <Text style={styles.forgotPassword}>Forgot Password?</Text>
+          </Pressable>
+          <CustomButtom
+            text="Login"
+            style={{marginTop: 10}}
+            onPress={() => handleLogin()}
           />
-          <InputBox
-            isPassword={true}
-            text={password}
-            onChange={pword => setPassword(pword)}
-            placeholder="Password"
-            leftIcon={<LockIcon height={32} width={32} />}
-            style={{marginVertical: 5}}
-          />
-        </View>
-        <Pressable
-          onPress={() => {
-            navigation.navigate('ForgotPassword');
-          }}>
-          <Text style={styles.forgotPassword}>Forgot Password?</Text>
-        </Pressable>
-        <CustomButtom
-          text="Login"
-          style={{marginTop: 10}}
-          onPress={() => handleLogin()}
-        />
-        <View style={styles.newUserContainer}>
-          <Text style={styles.newUserText}>New to app?</Text>
-          <Pressable onPress={() => navigation.navigate('SignUpScreen')}>
-            <Text style={styles.newUserPress}>Create New User</Text>
+          <View style={styles.newUserContainer}>
+            <Text style={styles.newUserText}>New to app?</Text>
+            <Pressable onPress={() => navigation.navigate('SignUpScreen')}>
+              <Text style={styles.newUserPress}>Create New User</Text>
+            </Pressable>
+          </View>
+          <View
+            style={[
+              {
+                flexDirection: 'row',
+                alignItems: 'center',
+                paddingVertical: 5,
+              },
+            ]}>
+            <View style={{flex: 1, height: 1, backgroundColor: 'white'}} />
+            <View>
+              <Text
+                style={{
+                  width: 50,
+                  textAlign: 'center',
+                  color: 'white',
+                  fontFamily: 'Poppins-Regular',
+                }}>
+                OR
+              </Text>
+            </View>
+            <View style={{flex: 1, height: 1, backgroundColor: 'white'}} />
+          </View>
+          <Pressable onPress={() => hadleOAuth()}>
+            <View style={styles.oauthBtnContainer}>
+              <Image
+                source={require('../../assets/Imgs/google-logo.png')}
+                style={styles.btnImg}
+              />
+              <Text style={styles.btnText}>Continue with google</Text>
+            </View>
           </Pressable>
         </View>
-        <View
-          style={[
-            {
-              flexDirection: 'row',
-              alignItems: 'center',
-              paddingVertical: 5,
-            },
-          ]}>
-          <View style={{flex: 1, height: 1, backgroundColor: 'white'}} />
-          <View>
-            <Text
-              style={{
-                width: 50,
-                textAlign: 'center',
-                color: 'white',
-                fontFamily: 'Poppins-Regular',
-              }}>
-              OR
-            </Text>
-          </View>
-          <View style={{flex: 1, height: 1, backgroundColor: 'white'}} />
-        </View>
-        <Pressable onPress={() => hadleOAuth()}>
-          <View style={styles.oauthBtnContainer}>
-            <Image
-              source={require('../../assets/Imgs/google-logo.png')}
-              style={styles.btnImg}
-            />
-            <Text style={styles.btnText}>Continue with google</Text>
-          </View>
-        </Pressable>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 

@@ -11,6 +11,7 @@ import {RadioButton} from 'react-native-paper';
 import CustomButtom from '../../Components/CustomButtom';
 import DropdownComponent from '../../Components/TimingDropDown';
 import {ScrollView} from 'react-native-gesture-handler';
+import {useToast} from 'react-native-toast-notifications';
 
 type ServiceEntryProps = {
   navigation: StackNavigationProp<RootStackParamList, 'ServiceEntry'>;
@@ -44,12 +45,23 @@ const ServiceEntry: React.FC<ServiceEntryProps> = ({navigation, route}) => {
   const scrnName = route.params.type;
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [selectedOption, setSelectedOption] = useState('Forenoon');
+  const [selectedOption, setSelectedOption] = useState(null);
 
   const onChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate || date;
     setShowDatePicker(false);
     setDate(currentDate);
+  };
+
+  const handleSubmit = () => {
+    if (
+      !selectedOption ||
+      selectedOption === null ||
+      selectedOption === undefined ||
+      selectedOption === ''
+    ) {
+      navigation.navigate('SucessScreen');
+    }
   };
   useEffect(() => {
     navigation.setOptions({
@@ -102,6 +114,7 @@ const ServiceEntry: React.FC<ServiceEntryProps> = ({navigation, route}) => {
           <CustomButtom
             text="Book now!"
             style={{width: 150, alignSelf: 'center'}}
+            onPress={handleSubmit}
           />
         </View>
       </View>
