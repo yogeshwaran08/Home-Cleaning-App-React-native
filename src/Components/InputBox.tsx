@@ -1,6 +1,7 @@
 import {StyleSheet, Text, TextInput, View, ViewStyle} from 'react-native';
 import React from 'react';
 import HomeIcon from '../assets/Icons/Home';
+import {COLOR} from '../config/constants';
 
 interface InputBoxProps {
   text: string | undefined;
@@ -9,6 +10,8 @@ interface InputBoxProps {
   leftIcon?: JSX.Element;
   style?: ViewStyle;
   isPassword?: boolean;
+  multiline?: boolean;
+  rightIcon?: JSX.Element;
 }
 
 const InputBox: React.FC<InputBoxProps> = ({
@@ -18,6 +21,8 @@ const InputBox: React.FC<InputBoxProps> = ({
   leftIcon,
   style,
   isPassword,
+  multiline = false,
+  rightIcon,
 }) => {
   return (
     <View style={[styles.container, style]}>
@@ -29,7 +34,9 @@ const InputBox: React.FC<InputBoxProps> = ({
         onChangeText={onChange}
         placeholderTextColor={'gray'}
         style={styles.inputBox}
+        multiline={multiline}
       />
+      {rightIcon}
     </View>
   );
 };
@@ -55,5 +62,6 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'left',
     textAlignVertical: 'bottom',
+    color: COLOR.onTextColor,
   },
 });

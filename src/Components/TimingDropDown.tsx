@@ -4,6 +4,12 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {Dropdown} from 'react-native-element-dropdown';
 import {COLOR} from '../config/constants';
 import ClockIcon from '../assets/Icons/Clock';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
+interface dataProps {
+  label: string;
+  value: string;
+}
 
 interface Props {
   value: string | null;
@@ -12,21 +18,32 @@ interface Props {
   setValue: (value: any) => void;
   disable?: boolean;
   containerStyle?: ViewStyle;
+  data: dataProps[];
+  type: 'time' | 'dob';
 }
 
 const DropdownComponent: React.FC<Props> = ({
   value,
   setValue,
-  iconName,
   placeholder,
   disable = false,
   containerStyle,
+  data,
+  type,
 }) => {
   const [isFocus, setIsFocus] = useState(false);
-  let data = [
-    {label: 'Forenoon', value: 'forenoon'},
-    {label: 'Afternoon', value: 'afternoon'},
-  ];
+  // let data = [
+  //   {label: 'Forenoon', value: 'forenoon'},
+  //   {label: 'Afternoon', value: 'afternoon'},
+  // ];
+  const leftIconn = () => {
+    if (type === 'time')
+      return <ClockIcon width={30} height={30} style={{paddingRight: 40}} />;
+    else
+      return (
+        <MaterialCommunityIcons name={'human-male'} size={30} color={'black'} />
+      );
+  };
 
   return (
     <View style={[styles.container, containerStyle]}>
@@ -53,9 +70,7 @@ const DropdownComponent: React.FC<Props> = ({
           setValue(item.value);
           setIsFocus(false);
         }}
-        renderLeftIcon={() => (
-          <ClockIcon width={30} height={30} style={{paddingRight: 40}} />
-        )}
+        renderLeftIcon={leftIconn}
       />
     </View>
   );

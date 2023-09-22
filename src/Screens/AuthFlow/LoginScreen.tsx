@@ -16,6 +16,8 @@ import {Image} from 'react-native';
 import {ScreenProps} from '../../Navigation/ScreenTypes';
 import {useToast} from 'react-native-toast-notifications';
 import {StackActions} from '@react-navigation/native';
+import {loginWithEmail, onGoogleButtonPress} from '../../Firebase/Firebase';
+import {useAuth} from '../../CustomContext/AuthContext';
 
 type LoginScreenProps = ScreenProps<'LoginScreen'>;
 
@@ -23,24 +25,71 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
   const toast = useToast();
+  const [user, initializing] = useAuth();
 
-  const handleLogin = () => {
-    toast.show('Logged with email', {
-      type: 'success',
+  const notify = (msg: string, type: string) => {
+    toast.show(msg, {
+      type: type,
       placement: 'top',
       duration: 4000,
       animationType: 'slide-in',
     });
-    navigation.dispatch(StackActions.replace('AuthLoadingScreen'));
+  };
+
+  const handleLogin = () => {
+    if (username && password)
+      loginWithEmail(
+        username,
+        password,
+        () => {
+          notify('Login Success', 'success');
+          navigation.dispatch(StackActions.replace('AuthLoadingScreen'));
+        },
+        error => {
+          if (error.code === 'auth/invalid-login') {
+            notify('Invalid username/password', 'danger');
+          } else if (error.code === 'auth/invalid-email') {
+            notify('Invalid email', 'warning');
+          } else {
+            notify('Error occured', 'warning');
+          }
+        },
+      );
+    else
+      toast.show('Please fill all fields', {
+        type: 'warning',
+        placement: 'top',
+        duration: 4000,
+        animationType: 'slide-in',
+      });
   };
 
   const hadleOAuth = () => {
-    toast.show('Logged with google', {
-      type: 'success',
-      placement: 'top',
-      duration: 4000,
-      animationType: 'slide-in',
-    });
+    onGoogleButtonPress()
+      .then(userInfo => {
+        console.log('Signed in with Google!');
+        toast.show('Login Success!', {
+          type: 'success',
+          duration: 3000,
+          placement: 'top',
+        });
+        console.log();
+        if (!userInfo.additionalUserInfo?.isNewUser)
+          navigation.dispatch(StackActions.replace('AuthLoadingScreen'));
+        else {
+          console.log('creating new user');
+          navigation.dispatch(StackActions.replace('CollectUserData'));
+        }
+      })
+      .catch(error => {
+        console.log(error);
+        let message = 'Error on logging in with google';
+        toast.show(message, {
+          type: 'danger',
+          duration: 3000,
+          placement: 'top',
+        });
+      });
   };
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>

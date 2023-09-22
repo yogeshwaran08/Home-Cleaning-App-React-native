@@ -10,11 +10,10 @@ import React, {useState} from 'react';
 import {COLOR} from '../../config/constants';
 import InputBox from '../../Components/InputBox';
 import HomeIcon from '../../assets/Icons/Home';
-import LockIcon from '../../assets/Icons/Lock';
 import CustomButtom from '../../Components/CustomButtom';
-import {Image} from 'react-native';
 import {ScreenProps} from '../../Navigation/ScreenTypes';
 import {useToast} from 'react-native-toast-notifications';
+import {resetPassword} from '../../Firebase/Firebase';
 
 type ForgotPasswordProps = ScreenProps<'ForgotPassword'>;
 
@@ -23,12 +22,23 @@ const ForgotPasswordScreen: React.FC<ForgotPasswordProps> = ({navigation}) => {
   const toast = useToast();
 
   const handleButton = () => {
-    toast.show('Email sent', {
-      type: 'success',
-      placement: 'top',
-      duration: 4000,
-      animationType: 'slide-in',
-    });
+    if (username) {
+      resetPassword(username);
+      toast.show('Email sent', {
+        type: 'success',
+        placement: 'top',
+        duration: 4000,
+        animationType: 'slide-in',
+      });
+      navigation.navigate('LoginScreen');
+    } else {
+      toast.show('Please enter the email', {
+        type: 'warning',
+        placement: 'top',
+        duration: 4000,
+        animationType: 'slide-in',
+      });
+    }
   };
 
   return (

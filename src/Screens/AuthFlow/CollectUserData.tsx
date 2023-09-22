@@ -6,8 +6,9 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
+  Pressable,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {COLOR} from '../../config/constants';
 import LottieView from 'lottie-react-native';
 import InputBox from '../../Components/InputBox';
@@ -16,6 +17,12 @@ import Feather from 'react-native-vector-icons/Feather';
 import Entypo from 'react-native-vector-icons/Entypo';
 import CustomButtom from '../../Components/CustomButtom';
 import {ScreenProps} from '../../Navigation/ScreenTypes';
+import DropdownComponent from '../../Components/TimingDropDown';
+import ClockIcon from '../../assets/Icons/Clock';
+import {useAuth} from '../../CustomContext/AuthContext';
+import {setData} from '../../Firebase/Crud';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import {getAddress, getCurrentLocation} from '../../Firebase/GeoLocation';
 
 type CollectUserDataProps = ScreenProps<'CollectUserData'>;
 
@@ -23,7 +30,23 @@ const CollectUserData: React.FC<CollectUserDataProps> = ({navigation}) => {
   const [name, setName] = useState<string>();
   const [location, setLocation] = useState<string>();
   const [phone, setPhone] = useState<string>();
+  const [selectedOption, setSelectedOption] = useState(null);
   const toast = useToast();
+  const [user, initializing] = useAuth();
+
+  let data = [
+    {label: 'Male', value: 'male'},
+    {label: 'Female', value: 'female'},
+  ];
+
+  const notify = (msg: string, type: string) => {
+    toast.show(msg, {
+      type: type,
+      placement: 'top',
+      duration: 3000,
+      animationType: 'slide-in',
+    });
+  };
 
   const handleNameCng = (text: string | undefined) => {
     setName(text);
@@ -34,36 +57,40 @@ const CollectUserData: React.FC<CollectUserDataProps> = ({navigation}) => {
   };
 
   const handlePhoneCng = (ph: string | undefined) => {
-    setPhone(phone);
+    setPhone(ph);
   };
 
   const handleSubmit = () => {
-    let message = '';
-    let type = 'warning';
-    if (!name || name === null || name?.trim() === '') {
-      message = 'Name Field is required';
+    if (!user && initializing === false) {
+      notify('Cookie error', 'warning');
+    } else if (!user && initializing === true) {
+      notify('Please hold up on this page for some more time', 'warning');
+    } else if (!name || name === null || name?.trim() === '') {
+      notify('Name Field is required', 'warning');
     } else if (name?.length <= 3) {
-      message = 'Name should be atlease 4 character long';
-    } else if (!phone || name === null || name?.trim() === '') {
-      message = 'Phone number is required';
-    } else if (phone.trim.length < 10 || phone.trim.length >= 11) {
-      message = 'Phone number should be exactly 10 digit long';
+      notify('Name should be atlease 4 character long', 'warning');
+    } else if (!phone || phone === null || phone?.trim() === '') {
+      notify('Phone number is required', 'warning');
+    } else if (phone.trim().length !== 10) {
+      notify('Phone number should be exactly 10 digit long', 'warning');
     } else if (!location || location === null || location?.trim() === '') {
-      message = 'Location field is required';
+      notify('Location field is required', 'warning');
     } else if (location.trim().length <= 3) {
-      message = 'The location field should be atleast 4 character long';
+      notify(
+        'The location field should be atleast 4 character long',
+        'warning',
+      );
+    } else if (!selectedOption || selectedOption === null) {
+      notify('Please select your gender', 'warning');
     } else {
-      message = 'Sucess';
-      type = 'warning';
-      navigation.navigate('AuthLoadingScreen');
-    }
-    if (message !== '') {
-      toast.show(message, {
-        type: 'warning',
-        placement: 'top',
-        duration: 3000,
-        animationType: 'slide-in',
+      user?.updateProfile({displayName: name});
+      // user?.updatePhoneNumber();
+      setData(`/${user?.uid}`, {
+        location: location,
+        gender: selectedOption,
+        phone: phone,
       });
+      navigation.navigate('AuthLoadingScreen');
     }
   };
 
@@ -96,7 +123,22 @@ const CollectUserData: React.FC<CollectUserDataProps> = ({navigation}) => {
               leftIcon={
                 <Entypo name="location-pin" size={25} color={'black'} />
               }
-              style={styles.input}
+              multiline={true}
+              rightIcon={
+                <Pressable
+                  onPress={() =>
+                    getAddress(address => {
+                      setLocation(address);
+                      console.log('asdasd');
+                    })
+                  }>
+                  <FontAwesome6
+                    name={'location-crosshairs'}
+                    size={25}
+                    color={'black'}
+                  />
+                </Pressable>
+              }
             />
             <InputBox
               text={phone}
@@ -105,6 +147,16 @@ const CollectUserData: React.FC<CollectUserDataProps> = ({navigation}) => {
               leftIcon={<Feather name="phone" size={25} color={'black'} />}
               style={styles.input}
             />
+            <View style={styles.timeContainer}>
+              <DropdownComponent
+                placeholder="Gender"
+                value={selectedOption}
+                setValue={setSelectedOption}
+                containerStyle={styles.dropDownStyle}
+                data={data}
+                type="dob"
+              />
+            </View>
             <CustomButtom
               text="Submit"
               style={styles.btnStyle}
@@ -156,5 +208,20 @@ const styles = StyleSheet.create({
   },
   btnStyle: {
     marginVertical: 15,
+  },
+  dropDownStyle: {
+    width: '100%',
+    // height: 30,
+    borderRadius: 30,
+    paddingHorizontal: 10,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+  },
+  timeContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 50,
+    justifyContent: 'center',
+    marginVertical: 5,
   },
 });

@@ -12,7 +12,28 @@
           "package_name": "com.homecleaning"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "968127669606-0j40a2ouhov7l96gpso69emdgp405o33.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.homecleaning",
+            "certificate_hash": "8956dcf266272d09e73827ef77cee5e87d19aed6"
+          }
+        },
+        {
+          "client_id": "968127669606-o0vp5k9koib86ga1i5suusf9cktp0iup.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.homecleaning",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "968127669606-i4mke1ed69981ikteulkcnijuil885aq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAptuKmld1vKF16foiPVMH8CpPQ9Sp8reE"
@@ -20,7 +41,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "968127669606-i4mke1ed69981ikteulkcnijuil885aq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

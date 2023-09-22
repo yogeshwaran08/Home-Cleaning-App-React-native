@@ -13,6 +13,8 @@ import HomeIcon from '../../assets/Icons/Home';
 import LockIcon from '../../assets/Icons/Lock';
 import CustomButtom from '../../Components/CustomButtom';
 import {ScreenProps} from '../../Navigation/ScreenTypes';
+import {signUpWithEmail} from '../../Firebase/Firebase';
+import {useToast} from 'react-native-toast-notifications';
 
 type SignUpProps = ScreenProps<'SignUpScreen'>;
 
@@ -20,9 +22,57 @@ const SignUp: React.FC<SignUpProps> = ({navigation}) => {
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [cnfPassword, setCnfPassword] = useState<string>();
+  const toast = useToast();
+
+  const notify = (msg: string, type: string) => {
+    toast.show(msg, {
+      type: type,
+      duration: 1000,
+      placement: 'top',
+      animationType: 'slide-in',
+    });
+  };
 
   const handleSignUp = () => {
-    navigation.navigate('CollectUserData');
+    if (!username || username === '' || username === null) {
+      notify('Email Should not be empty', 'warning');
+    } else if (username.trim().length <= 3) {
+      notify('Email too short', 'warning');
+    } else if (
+      !password ||
+      password === '' ||
+      password === null ||
+      password.trim().length <= 6
+    ) {
+      notify('Password is too short', 'warning');
+    } else if (
+      !cnfPassword ||
+      cnfPassword === '' ||
+      cnfPassword.trim().length < 6
+    ) {
+      notify('Password is too short', 'warning');
+    } else if (password !== cnfPassword) {
+      notify("Password doesn't match", 'warning');
+    } else {
+      signUpWithEmail(
+        username,
+        password,
+        () => {
+          setUsername(undefined);
+          setPassword(undefined);
+          setCnfPassword(undefined);
+          notify('Signing in successfull', 'success');
+          navigation.navigate('CollectUserData');
+        },
+        error => {
+          if (error.code === 'auth/email-already-exists')
+            notify('Server Error', 'warning');
+          else {
+            notify('Error occured', 'warning');
+          }
+        },
+      );
+    }
   };
 
   return (

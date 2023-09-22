@@ -9,3 +9,5 @@ export const COLOR = {
   onTextColor : "#000",
   DropDownContainerClr : '#D9D9D9'
 };
+
+export const dbUrl = "https://homecleaning-16861-default-rtdb.firebaseio.com/"

@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {RootStackParamList, ScreenProps} from '../../Navigation/ScreenTypes';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {RouteProp} from '@react-navigation/native';
-import {COLOR} from '../../config/constants';
+import {COLOR, dbUrl} from '../../config/constants';
 import TitleText from '../../Components/TitleText';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import CalenderIcon from '../../assets/Icons/Calender';
@@ -12,6 +12,9 @@ import CustomButtom from '../../Components/CustomButtom';
 import DropdownComponent from '../../Components/TimingDropDown';
 import {ScrollView} from 'react-native-gesture-handler';
 import {useToast} from 'react-native-toast-notifications';
+import {getData, setData} from '../../Firebase/Crud';
+import {useAuth} from '../../CustomContext/AuthContext';
+import {firebase} from '@react-native-firebase/database';
 
 type ServiceEntryProps = {
   navigation: StackNavigationProp<RootStackParamList, 'ServiceEntry'>;
@@ -46,20 +49,44 @@ const ServiceEntry: React.FC<ServiceEntryProps> = ({navigation, route}) => {
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
-
+  const toast = useToast();
+  const [user, initializing] = useAuth();
   const onChange = (event: any, selectedDate: any) => {
     const currentDate = selectedDate || date;
     setShowDatePicker(false);
     setDate(currentDate);
   };
 
-  const handleSubmit = () => {
+  let data = [
+    {label: 'Forenoon', value: 'forenoon'},
+    {label: 'Afternoon', value: 'afternoon'},
+  ];
+
+  const handleSubmit = async () => {
     if (
       !selectedOption ||
       selectedOption === null ||
       selectedOption === undefined ||
       selectedOption === ''
     ) {
+      toast.show('Please fill all fields', {
+        type: 'warning',
+        placement: 'top',
+        duration: 1000,
+        animationType: 'slide-in',
+      });
+    } else {
+      const location = await getData(`${user?.uid}/location`);
+      const data = {
+        bookingTime: new Date().getTime(),
+        serviceTime: date,
+        location: location,
+        status: 'incomplete',
+        preferedVisitingTime: selectedOption,
+      };
+      const db = firebase.app().database(dbUrl);
+      db.ref(`/${user?.uid}/Bookings`).push(data);
+      // setData(`/${user?.uid}/Bookings/`, );
       navigation.navigate('SucessScreen');
     }
   };
@@ -90,6 +117,8 @@ const ServiceEntry: React.FC<ServiceEntryProps> = ({navigation, route}) => {
               value={selectedOption}
               setValue={setSelectedOption}
               containerStyle={styles.dropDownStyle}
+              data={data}
+              type="time"
             />
           </View>
           <Pressable
