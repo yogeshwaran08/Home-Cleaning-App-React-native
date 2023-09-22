@@ -17,6 +17,8 @@ interface ButtonInterface {
   leftIcon?: JSX.Element;
   rightIcon?: JSX.Element;
   style?: ViewStyle;
+  gradientStyle?: ViewStyle;
+  textStyle?: ViewStyle;
 }
 
 const CustomButtom: React.FC<ButtonInterface> = ({
@@ -26,6 +28,8 @@ const CustomButtom: React.FC<ButtonInterface> = ({
   leftIcon,
   rightIcon,
   style,
+  gradientStyle,
+  textStyle,
 }) => {
   return (
     <Pressable onPress={onPress} style={style}>
@@ -33,8 +37,8 @@ const CustomButtom: React.FC<ButtonInterface> = ({
         colors={COLOR.primaryButtonClr}
         start={{x: 0, y: 1}}
         end={{x: 1, y: 0}}
-        style={[styles.container, {height: height}]}>
-        <Text style={styles.btnText}>{text}</Text>
+        style={[styles.container, {height: height}, gradientStyle]}>
+        <Text style={[styles.btnText, textStyle]}>{text}</Text>
       </LinearGradient>
     </Pressable>
   );

@@ -119,9 +119,9 @@ const Profile: React.FC<ProfileScreenProps> = ({navigation}) => {
               {name}
             </Text>
           </View>
-          <View style={styles.iconContainer}>
+          {/* <View style={styles.iconContainer}>
             <EvilIcons name={'pencil'} size={30} color={'white'} />
-          </View>
+          </View> */}
         </View>
         <View style={styles.NameContainer}>
           <View style={styles.iconContainer}>
@@ -131,9 +131,9 @@ const Profile: React.FC<ProfileScreenProps> = ({navigation}) => {
             <Text style={styles.subHeader}>Phone number</Text>
             <Text style={styles.header}>{phone}</Text>
           </View>
-          <View style={styles.iconContainer}>
+          {/* <View style={styles.iconContainer}>
             <EvilIcons name={'pencil'} size={30} color={'white'} />
-          </View>
+          </View> */}
         </View>
         <View style={styles.NameContainer}>
           <View style={styles.iconContainer}>
@@ -151,11 +151,19 @@ const Profile: React.FC<ProfileScreenProps> = ({navigation}) => {
         </View>
       </View>
       <View style={styles.btnContainer}>
-        <View style={{width: '50%'}}>
-          <CustomButtom text="Logout" onPress={showLogout} />
+        <View>
+          <CustomButtom
+            text="Logout"
+            onPress={showLogout}
+            textStyle={{paddingHorizontal: 20}}
+          />
         </View>
-        <View style={{width: '50%'}}>
-          <CustomButtom text="Delete Account" onPress={showDelete} />
+        <View>
+          <CustomButtom
+            text="Delete Account"
+            onPress={showDelete}
+            textStyle={{paddingHorizontal: 20}}
+          />
         </View>
         <DeleteModel
           onCancel={hideDelete}
@@ -232,5 +240,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingRight: 20,
     paddingVertical: 40,
+    justifyContent: 'center',
   },
 });
