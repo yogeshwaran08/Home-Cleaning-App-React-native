@@ -11,7 +11,7 @@ import {COLOR} from '../config/constants';
 
 interface ServiceCardProps {
   title: string;
-  illustration: JSX.Element;
+  illustration?: JSX.Element;
   style?: ViewStyle;
   onPress: () => void;
 }
@@ -29,7 +29,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
           {title}
         </Text>
       </View>
-      <View style={styles.right}>{illustration}</View>
+      {illustration && <View style={styles.right}>{illustration}</View>}
     </Pressable>
   );
 };

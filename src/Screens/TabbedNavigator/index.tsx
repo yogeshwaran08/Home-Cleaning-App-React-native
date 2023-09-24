@@ -10,6 +10,7 @@ import ServiceEntry from './ServiceEntry';
 import BackButton from '../../Components/BackButton';
 import Profile from './Profile';
 import SucessScreen from './SucessScreen';
+import HomeCleaning from '../HomeCleaningFlow';
 
 const TabbeNavigtor = createStackNavigator<RootStackParamList>();
 
@@ -62,12 +63,18 @@ const MainNavigator = () => {
           },
         }}
       />
+
       <TabbeNavigtor.Screen
         component={SucessScreen}
         name="SucessScreen"
         options={{
           headerShown: false,
         }}
+      />
+      <TabbeNavigtor.Screen
+        component={HomeCleaning}
+        name="HomeCleaningFlow"
+        options={{headerShown: false}}
       />
     </TabbeNavigtor.Navigator>
   );

@@ -6,7 +6,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {COLOR} from '../../config/constants';
 import InputBox from '../../Components/InputBox';
 import HomeIcon from '../../assets/Icons/Home';
@@ -18,6 +18,7 @@ import {useToast} from 'react-native-toast-notifications';
 import {StackActions} from '@react-navigation/native';
 import {loginWithEmail, onGoogleButtonPress} from '../../Firebase/Firebase';
 import {useAuth} from '../../CustomContext/AuthContext';
+import LoadingModel from './Loading';
 
 type LoginScreenProps = ScreenProps<'LoginScreen'>;
 
@@ -25,7 +26,19 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
   const [username, setUsername] = useState<string>();
   const [password, setPassword] = useState<string>();
   const toast = useToast();
+  const [isLoading, setIsLoading] = useState(true);
   const [user, initializing] = useAuth();
+
+  useEffect(() => {
+    if (user && initializing === false) {
+      navigation.dispatch(StackActions.replace('MainNavigator'));
+      setIsLoading(false);
+    } else if (!user && initializing === true) {
+      setIsLoading(true);
+    } else if (!user && initializing === false) {
+      setIsLoading(false);
+    }
+  }, [initializing]);
 
   const notify = (msg: string, type: string) => {
     toast.show(msg, {
@@ -166,6 +179,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({navigation}) => {
             </View>
           </Pressable>
         </View>
+        <LoadingModel visible={isLoading} />
       </View>
     </TouchableWithoutFeedback>
   );
@@ -199,7 +213,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Regular',
   },
   forgotPassword: {
-    color: '#FE8400',
+    color: COLOR.highlightColor,
     fontFamily: 'Poppins-Regular',
     alignSelf: 'flex-end',
     paddingVertical: 5,

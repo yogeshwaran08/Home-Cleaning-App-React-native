@@ -15,6 +15,10 @@ export type RootStackParamList = {
   ServiceEntry: ServiceEntry;
   Profile: undefined;
   SucessScreen: undefined;
+  HomeCleaningFlow: undefined;
+  CleaningSelecter: undefined;
+  FullCleaning: undefined;
+  PartialCleaning: undefined;
   //navigaters
   MainNavigator: undefined;
 };

@@ -15,7 +15,6 @@ import {useAuth} from '../../CustomContext/AuthContext';
 import {getData, setData} from '../../Firebase/Crud';
 import {logOut} from '../../Firebase/Firebase';
 import LocationEditorModel from './LocationEditorModel';
-import {TextInput} from 'react-native-gesture-handler';
 
 type ProfileScreenProps = ScreenProps<'Profile'>;
 
@@ -60,12 +59,18 @@ const Profile: React.FC<ProfileScreenProps> = ({navigation}) => {
 
   const handleLogout = () => {
     logOut();
-    navigation.dispatch(StackActions.replace('AuthFlow'));
+    hideLogout();
+    setTimeout(() => {
+      navigation.dispatch(StackActions.replace('AuthFlow'));
+    }, 1000);
   };
 
   const handleDelete = () => {
     user?.delete();
-    navigation.dispatch(StackActions.replace('AuthFlow'));
+    hideDelete();
+    setTimeout(() => {
+      navigation.dispatch(StackActions.replace('AuthFlow'));
+    }, 1000);
   };
 
   const hideDelete = () => {
@@ -225,7 +230,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   header: {
-    color: 'white',
+    color: COLOR.primaryForeground,
     fontFamily: 'Poppins-Medium',
     fontSize: 14,
   },

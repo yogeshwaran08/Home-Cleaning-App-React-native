@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   msg: {
-    color: 'white',
+    color: COLOR.primaryForeground,
     fontFamily: 'Poppins-Regular',
     fontSize: 14,
   },

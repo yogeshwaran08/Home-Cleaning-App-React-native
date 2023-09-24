@@ -8,7 +8,7 @@ const BackButton = () => {
   return (
     <View>
       <Pressable onPress={() => navigation.goBack()}>
-        <Ionicons name="arrow-back-circle-outline" color={'white'} size={35} />
+        <Ionicons name="arrow-back-circle-outline" color={'black'} size={35} />
       </Pressable>
     </View>
   );

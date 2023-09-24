@@ -23,6 +23,8 @@ import {useAuth} from '../../CustomContext/AuthContext';
 import {setData} from '../../Firebase/Crud';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import {getAddress, getCurrentLocation} from '../../Firebase/GeoLocation';
+import {StackActions} from '@react-navigation/native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type CollectUserDataProps = ScreenProps<'CollectUserData'>;
 
@@ -90,7 +92,7 @@ const CollectUserData: React.FC<CollectUserDataProps> = ({navigation}) => {
         gender: selectedOption,
         phone: phone,
       });
-      navigation.navigate('AuthLoadingScreen');
+      navigation.dispatch(StackActions.replace('AuthLoadingScreen'));
     }
   };
 
@@ -154,7 +156,13 @@ const CollectUserData: React.FC<CollectUserDataProps> = ({navigation}) => {
                 setValue={setSelectedOption}
                 containerStyle={styles.dropDownStyle}
                 data={data}
-                type="dob"
+                leftIcon={() => (
+                  <MaterialCommunityIcons
+                    name={'human-male'}
+                    size={30}
+                    color={'black'}
+                  />
+                )}
               />
             </View>
             <CustomButtom

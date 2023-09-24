@@ -1,10 +1,10 @@
 export const COLOR = {
-  primaryForeground: 'white',
-  secondaryForeground: '#D0C8C8',
-  highlightColor: '#FE8400',
+  primaryForeground: 'black',
+  secondaryForeground: 'gray',
+  highlightColor: '#0057FF',
   iconColor: '#000',
-  primaryButtonClr: ['#FE8400', '#FFBC00'],
-  backgroundColor: '#281A69',
+  primaryButtonClr: ['#0057FF', '#0057FF'],
+  backgroundColor: '#fff',
   secondaryBackground : "white", 
   onTextColor : "#000",
   DropDownContainerClr : '#D9D9D9'

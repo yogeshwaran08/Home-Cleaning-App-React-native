@@ -60,7 +60,7 @@ const Home: React.FC<HomeProps> = ({navigation}) => {
           illustration={HomeServiceImage()}
           style={styles.cardStyle}
           onPress={() => {
-            navigation.navigate('ServiceEntry', {type: 'HomeService'});
+            navigation.navigate('HomeCleaningFlow');
           }}
         />
         <ServiceCard

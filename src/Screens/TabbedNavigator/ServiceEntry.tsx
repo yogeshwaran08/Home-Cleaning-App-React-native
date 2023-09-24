@@ -15,6 +15,7 @@ import {useToast} from 'react-native-toast-notifications';
 import {getData, setData} from '../../Firebase/Crud';
 import {useAuth} from '../../CustomContext/AuthContext';
 import {firebase} from '@react-native-firebase/database';
+import ClockIcon from '../../assets/Icons/Clock';
 
 type ServiceEntryProps = {
   navigation: StackNavigationProp<RootStackParamList, 'ServiceEntry'>;
@@ -118,7 +119,9 @@ const ServiceEntry: React.FC<ServiceEntryProps> = ({navigation, route}) => {
               setValue={setSelectedOption}
               containerStyle={styles.dropDownStyle}
               data={data}
-              type="time"
+              leftIcon={() => (
+                <ClockIcon width={30} height={30} style={{paddingRight: 40}} />
+              )}
             />
           </View>
           <Pressable
@@ -179,6 +182,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     position: 'relative',
     marginBottom: 30,
+    borderWidth: 1,
+    borderColor: 'black',
   },
   dateTextStyle: {
     color: COLOR.onTextColor,
